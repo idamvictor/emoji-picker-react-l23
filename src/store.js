@@ -60,6 +60,7 @@
 
 // export default App;
 
+
 import React, { useState, useEffect } from "react";
 import "./App.css"; // Import your CSS file
 
@@ -92,10 +93,7 @@ function EmojiFinder() {
   };
 
   const handleEmojiClick = (emoji) => {
-    const updatedRecentEmojis = [
-      emoji,
-      ...recentEmojis.filter((item) => item.slug !== emoji.slug),
-    ].slice(0, 5);
+    const updatedRecentEmojis = [emoji, ...recentEmojis.filter(item => item.slug !== emoji.slug)].slice(0, 5);
     setRecentEmojis(updatedRecentEmojis);
   };
 
@@ -105,52 +103,26 @@ function EmojiFinder() {
   );
 
   return (
-    <div className="App gap">
-      <div className="menu">
-        <div className="menu__text">
-          <h1>Emoji Search</h1>
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="Search emojis..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-          </div>
-        </div>
+    <div className="emoji-finder-container">
+      <h1>Emoji Search</h1>
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Search emojis..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
       </div>
       {loading ? (
-        <div className="container">Loading...</div>
+        <div>Loading...</div>
       ) : (
         <>
           {recentEmojis.length > 0 && (
-            <div className="gap">
-              <div className="menu__text">
-                <h2>Recently Used</h2>
-              </div>
-              <div className="container card-recent">
+            <div className="recent-emojis">
+              <h2>Recently Used</h2>
+              <div className="emojis-grid">
                 {recentEmojis.map((emoji) => (
-                  <div className="card">
-                    <span
-                      className="emo"
-                      key={emoji.slug}
-                      role="img"
-                      aria-label={emoji.slug}
-                      onClick={() => handleEmojiClick(emoji)}
-                    >
-                      {emoji.character}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-          <div className="container">
-            {filteredEmojis.length > 0 ? (
-              filteredEmojis.map((emoji) => (
-                <div className="card">
                   <span
-                    className="emo"
                     key={emoji.slug}
                     role="img"
                     aria-label={emoji.slug}
@@ -158,7 +130,21 @@ function EmojiFinder() {
                   >
                     {emoji.character}
                   </span>
-                </div>
+                ))}
+              </div>
+            </div>
+          )}
+          <div className="emojis-grid">
+            {filteredEmojis.length > 0 ? (
+              filteredEmojis.map((emoji) => (
+                <span
+                  key={emoji.slug}
+                  role="img"
+                  aria-label={emoji.slug}
+                  onClick={() => handleEmojiClick(emoji)}
+                >
+                  {emoji.character}
+                </span>
               ))
             ) : (
               <div className="no-emoji">No emojis found</div>
